@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kurly.mapper.CategoryMapper">
+	<select id="selectCategories" resultType="com.kurly.vo.ClassifyDataVO">
+		SELECT mkpc_seq AS seq, mkpc_name AS name FROM mk_product_category
+	</select>
+</mapper>

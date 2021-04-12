@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kurly.mapper.MemberMapper">
+	<select id="memberLogin" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM mk_member WHERE mkm_id=#{id} AND mkm_pwd=#{pwd}
+	</select>
+	<select id="selectSimpleMemberInfo" resultType="com.kurly.vo.SimpleMemberVO">
+		SELECT mkm_id AS id, mkm_name AS name, mkm_grade AS grade, mkm_type AS type
+		FROM mk_member
+		WHERE mkm_id=#{id} AND mkm_pwd=#{pwd}
+	</select>
+	
+	<insert id="insertMemberInfo">
+		INSERT INTO mk_member(
+			mkm_id,
+			mkm_name,
+			mkm_pwd,mkm_email,
+			mkm_phone,
+			mkm_address,
+			mkm_gen,mkm_birth,
+			mkm_terms,
+			mkm_collect_agree_mk, 
+			mkm_collect_agree_other, 
+			mkm_info_receive,
+			mkm_info_receive_type,
+			mkm_age_confirm
+		)
+		VALUES (
+	        #{mkm_id},
+	        #{mkm_name},
+	        #{mkm_pwd},
+	        #{mkm_email},
+	        #{mkm_phone},
+	        #{mkm_address},
+	        #{mkm_gen},
+	        #{mkm_birth},
+	        #{mkm_terms},
+	        #{mkm_collect_agree_mk},
+	        #{mkm_collect_agree_other}, 
+	        #{mkm_info_receive},
+	        #{mkm_info_receive_type},
+	        #{mkm_age_confirm}
+		)
+		
+		
+	</insert>
+	
+	<select id="selectUserCntById" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM mk_member WHERE  mkm_id=#{id}
+	</select>
+	
+	<select id="selectUserCntByEmail" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM mk_member WHERE  mkm_email=#{email}
+	</select>
+	
+</mapper>

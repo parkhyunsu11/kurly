@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kurly.mapper.ProductMapper">
+	<select id="selectProductSeqList" resultType="java.lang.Integer">
+		SELECT mkp_seq FROM mk_products ORDER BY mkp_reg_date DESC LIMIT #{limit};
+	</select>
+
+	<select id="selectProduct" resultType="com.kurly.vo.SimpleProductVO">
+		SELECT * FROM
+		(
+			SELECT * FROM mk_products a
+			INNER JOIN
+			(
+				SELECT MAX(mkpi_seq) AS mkpi_seq, mkpi_uri, mkpi_product_seq 
+				FROM mk_product_image 
+				WHERE mkpi_product_seq=#{seq}
+			) b
+			ON a.mkp_seq = b.mkpi_product_seq
+		) c
+		INNER JOIN mk_brand d
+		ON c.mkp_bi_seq = d.mkb_seq
+	</select>
+	
+	<select id="selectRecommandSeqList" resultType="java.lang.Integer">
+		SELECT mkrp_prod_seq FROM mk_recommand_prod
+		ORDER BY mkrp_seq DESC
+	</select>
+	
+	<select id="selectRecommandProd" resultType="com.kurly.vo.SimpleProductVO">
+		SELECT c.*, d.mkpi_uri FROM
+		(
+			SELECT a.*, b.mkb_name 
+			FROM mk_products a INNER JOIN mk_brand b ON a.mkp_bi_seq=b.mkb_seq
+			ORDER BY mkp_reg_date
+		) c
+		INNER JOIN
+		(
+			SELECT MAX(mkpi_seq) AS mkpi_seq, mkpi_uri, mkpi_product_seq 
+			FROM mk_product_image 
+			WHERE mkpi_product_seq=#{seq}
+		) d
+		ON c.mkp_seq = d.mkpi_product_seq
+	</select>
+	
+	
+	<select id="selectMDRecommandSeqList" resultType="java.lang.Integer">
+		SELECT mkmrp_prod_seq FROM mk_md_recommand_prod
+		ORDER BY mkmrp_seq DESC
+	</select>
+	<select id="selectSpecialSeqList" resultType="java.lang.Integer">
+		SELECT mksp_prod_seq FROM mk_special_prod
+		ORDER BY mksp_seq DESC
+	</select>
+	<select id="selectAffordSeqList" resultType="java.lang.Integer">
+		SELECT mkap_prod_seq FROM mk_afford_prod
+		ORDER BY mkap_seq DESC
+	</select>
+	
+	<select id="selectProductBySeq" resultType="com.kurly.vo.ProductVO">
+		SELECT * FROM
+		(
+			SELECT * FROM mk_products a
+			INNER JOIN
+			(
+				SELECT MAX(mkpi_seq) AS mkpi_seq, mkpi_uri, mkpi_product_seq 
+				FROM mk_product_image 
+				WHERE mkpi_product_seq=#{seq}
+			) b
+			ON a.mkp_seq = b.mkpi_product_seq
+		) c
+		INNER JOIN mk_brand d
+		ON c.mkp_bi_seq = d.mkb_seq
+	</select>
+	
+	
+	
+	
+</mapper>
